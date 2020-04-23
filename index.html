@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1>Cafetière Ajax</h1>
+    <div class="d-flex">
+      <div class="border p-4 m-2">
+        <p>Cafetière 1</p>
+        <img src="https://www.cdiscount.com/pdt2/5/6/2/1/550x550/tri8713016009562/rw/tristar-cm1233-cafetiere-filtre-inox.jpg" alt="" />
+        <div id="statusCafetiere1">Inactive</div>
+      </div>
+      <div class="align-self-center">
+        <form method="POST">
+          <table>
+            <tbody class="d-flex flex-column">
+              <p>Commandez votre café ici :</p>
+
+              <label for="subject" name="name">Nom</label>
+              <input type="text" id="name" />
+
+              <tr>
+                <th><label for="subject" class="">Taille</label></th>
+                <td><label for="subject" class="">Petit</label><input type="radio" id="sizePetit" checked name="size" value="petit" /></td>
+                <td><label for="subject" class="">Moyen</label> <input type="radio" id="sizeMoyen" name="size" value="moyen" /></td>
+                <td><label for="subject" class="">Grand</label> <input type="radio" id="sizeGrand" name="size" value="grand" /></td>
+              </tr>
+
+              <tr>
+                <th><label for="subject" class="">Boisson</label></th>
+                <td><label for="subject" class="">Noir</label> <input type="radio" id="typeNoir" checked name="type" value="noir" /></td>
+                <td><label for="subject" class="">Crème</label> <input type="radio" id="typeCreme" name="type" value="creme" /></td>
+                <td><label for="subject" class="">Cappucino</label> <input type="radio" id="typeCappu" name="type" value="cappu" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <input type="button" name="commander" id="" value="commander" onClick="commanderCafe()" />
+        </form>
+      </div>
+      <div class="border p-4 m-2">
+        <p>Cafetière 2</p>
+        <img src="https://www.cdiscount.com/pdt2/5/6/2/1/550x550/tri8713016009562/rw/tristar-cm1233-cafetiere-filtre-inox.jpg" alt="" />
+        <div id="statusCafetiere2">Inactive</div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" async></script>
+    <script>
+      function commanderCafe() {
+        var nom = $("#name").val();
+        var taille = $("input[type=radio][name=size]:checked").val();
+        var boisson = $("input[type=radio][name=type]:checked").val();
+
+        var statusCafetiere1 = $("#statusCafetiere1").text();
+        var statusCafetiere2 = $("#statusCafetiere2").text();
+        console.log(taille, boisson, nom, statusCafetiere1);
+
+        $(document).ready(function () {
+          if (statusCafetiere1 === "Inactive") {
+            console.log("http://127.0.0.1/cafetiere.php?nom=" + nom + "&taille=" + taille + "&boisson=" + boisson + "&cafetiere=1");
+            //Cafetiere 1 dispo :
+            /* $.ajax({
+           
+            url: "http://127.0.0.1/php/cafetiere.php?nom=" + nom + "&taille=" + taille + "&boisson=" + boisson + "&cafetiere=1",
+            method: "GET",
+            dataType: "json"
+          })
+            .done(function (response) {
+              //Retour de la 1ere requête
+              console.log(response);
+            })
+            .fail(function (error) {
+              // Gestion des erreurs
+              alert("La requête n'a pas abouti : " + error.responseText);
+            })
+            .always(function () {
+              // alert("Requête effectuée");
+            });  */
+             $.get("http://127.0.0.1/cafetiere.php?nom=" + nom + "&taille=" + taille + "&boisson=" + boisson + "&cafetiere=1", function (data) {
+              console.log(data);
+            }); 
+          } else {
+            //Quand cafetiere 1 n'est pas dispo
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
